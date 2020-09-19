@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_start"
+    app:startDestination="@id/splashFragment">
+
+    <include app:graph="@navigation/nav_main" />
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="com.cuncis.ticketbookingremake.ui.SplashFragment"
+        android:label="fragment_splash"
+        tools:layout="@layout/fragment_splash" >
+        <action
+            android:id="@+id/action_splashFragment_to_getStartedFragment"
+            app:destination="@id/getStartedFragment" />
+        <action
+            android:id="@+id/action_splashFragment_to_nav_main"
+            app:destination="@id/nav_main" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.cuncis.ticketbookingremake.ui.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_nav_main"
+            app:destination="@id/nav_main" />
+    </fragment>
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.cuncis.ticketbookingremake.ui.RegisterFragment"
+        android:label="fragment_register"
+        tools:layout="@layout/fragment_register" >
+        <action
+            android:id="@+id/action_registerFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_registerFragment_to_successRegisterFragment"
+            app:destination="@id/successRegisterFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/getStartedFragment"
+        android:name="com.cuncis.ticketbookingremake.ui.GetStartedFragment"
+        android:label="fragment_get_started"
+        tools:layout="@layout/fragment_get_started" >
+        <action
+            android:id="@+id/action_getStartedFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_getStartedFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/successRegisterFragment"
+        android:name="com.cuncis.ticketbookingremake.ui.SuccessRegisterFragment"
+        android:label="fragment_success_register"
+        tools:layout="@layout/fragment_success_register" >
+        <action
+            android:id="@+id/action_successRegisterFragment_to_nav_main"
+            app:destination="@id/nav_main" />
+    </fragment>
+</navigation>
