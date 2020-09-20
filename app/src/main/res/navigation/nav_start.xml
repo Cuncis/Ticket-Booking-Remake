@@ -3,24 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_start"
-    app:startDestination="@id/splashFragment">
+    app:startDestination="@id/getStartedFragment">
 
     <include app:graph="@navigation/nav_main" />
     <fragment
-        android:id="@+id/splashFragment"
-        android:name="com.cuncis.ticketbookingremake.ui.SplashFragment"
-        android:label="fragment_splash"
-        tools:layout="@layout/fragment_splash" >
-        <action
-            android:id="@+id/action_splashFragment_to_getStartedFragment"
-            app:destination="@id/getStartedFragment" />
-        <action
-            android:id="@+id/action_splashFragment_to_nav_main"
-            app:destination="@id/nav_main" />
-    </fragment>
-    <fragment
         android:id="@+id/loginFragment"
-        android:name="com.cuncis.ticketbookingremake.ui.LoginFragment"
+        android:name="com.cuncis.ticketbookingremake.ui.start.login.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
@@ -32,7 +20,7 @@
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
-        android:name="com.cuncis.ticketbookingremake.ui.RegisterFragment"
+        android:name="com.cuncis.ticketbookingremake.ui.start.register.RegisterFragment"
         android:label="fragment_register"
         tools:layout="@layout/fragment_register" >
         <action
@@ -44,7 +32,7 @@
     </fragment>
     <fragment
         android:id="@+id/getStartedFragment"
-        android:name="com.cuncis.ticketbookingremake.ui.GetStartedFragment"
+        android:name="com.cuncis.ticketbookingremake.ui.start.getstarted.GetStartedFragment"
         android:label="fragment_get_started"
         tools:layout="@layout/fragment_get_started" >
         <action
@@ -53,10 +41,13 @@
         <action
             android:id="@+id/action_getStartedFragment_to_registerFragment"
             app:destination="@id/registerFragment" />
+        <action
+            android:id="@+id/action_getStartedFragment_to_nav_main"
+            app:destination="@id/nav_main" />
     </fragment>
     <fragment
         android:id="@+id/successRegisterFragment"
-        android:name="com.cuncis.ticketbookingremake.ui.SuccessRegisterFragment"
+        android:name="com.cuncis.ticketbookingremake.ui.start.successregister.SuccessRegisterFragment"
         android:label="fragment_success_register"
         tools:layout="@layout/fragment_success_register" >
         <action

@@ -5,33 +5,38 @@
     android:id="@+id/nav_ticket"
     app:startDestination="@id/ticketDetailFragment">
 
-    <include app:graph="@navigation/nav_main" />
+<!--    <include app:graph="@navigation/nav_main" />-->
 
     <fragment
         android:id="@+id/ticketDetailFragment"
-        android:name="com.cuncis.ticketbookingremake.ui.TicketDetailFragment"
+        android:name="com.cuncis.ticketbookingremake.ui.ticket.ticketdetail.TicketDetailFragment"
         android:label="fragment_ticket_detail"
-        tools:layout="@layout/fragment_ticket_detail" >
+        tools:layout="@layout/fragment_ticket_detail">
         <action
             android:id="@+id/action_ticketDetailFragment_to_ticketCheckoutFragment"
             app:destination="@id/ticketCheckoutFragment" />
     </fragment>
     <fragment
         android:id="@+id/ticketCheckoutFragment"
-        android:name="com.cuncis.ticketbookingremake.ui.TicketCheckoutFragment"
+        android:name="com.cuncis.ticketbookingremake.ui.ticket.ticketcheckout.TicketCheckoutFragment"
         android:label="fragment_ticket_checkout"
         tools:layout="@layout/fragment_ticket_checkout" >
         <action
             android:id="@+id/action_ticketCheckoutFragment_to_successBuyTicketFragment"
-            app:destination="@id/successBuyTicketFragment" />
+            app:destination="@id/successBuyTicketFragment"
+            app:popUpTo="@id/ticketCheckoutFragment"
+            app:popUpToInclusive="true"/>
     </fragment>
     <fragment
         android:id="@+id/successBuyTicketFragment"
-        android:name="com.cuncis.ticketbookingremake.ui.SuccessBuyTicketFragment"
+        android:name="com.cuncis.ticketbookingremake.ui.ticket.successbuyticket.SuccessBuyTicketFragment"
         android:label="fragment_success_buy_ticket"
         tools:layout="@layout/fragment_success_buy_ticket" >
         <action
             android:id="@+id/action_successBuyTicketFragment_to_nav_main"
-            app:destination="@id/nav_main" />
+            app:destination="@+id/nav_main"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/ticketDetailFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>

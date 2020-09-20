@@ -1,11 +1,9 @@
-package com.cuncis.ticketbookingremake.ui
+package com.cuncis.ticketbookingremake.ui.start.register
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
 import com.cuncis.ticketbookingremake.R
-import kotlinx.android.synthetic.main.fragment_register.*
-import kotlinx.android.synthetic.main.layout_register_one.*
 
 
 class RegisterFragment : Fragment(R.layout.fragment_register) {

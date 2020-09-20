@@ -9,16 +9,19 @@
 
     <fragment
         android:id="@+id/dashboardFragment"
-        android:name="com.cuncis.ticketbookingremake.ui.DashboardFragment"
+        android:name="com.cuncis.ticketbookingremake.ui.main.dashboard.DashboardFragment"
         android:label="fragment_dashboard"
         tools:layout="@layout/fragment_dashboard" >
         <action
             android:id="@+id/action_dashboardFragment_to_myProfileFragment"
             app:destination="@id/myProfileFragment" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_nav_ticket"
+            app:destination="@id/nav_ticket" />
     </fragment>
     <fragment
         android:id="@+id/myProfileFragment"
-        android:name="com.cuncis.ticketbookingremake.ui.MyProfileFragment"
+        android:name="com.cuncis.ticketbookingremake.ui.main.myprofile.MyProfileFragment"
         android:label="fragment_my_profile"
         tools:layout="@layout/fragment_my_profile" >
         <action
@@ -27,7 +30,7 @@
     </fragment>
     <fragment
         android:id="@+id/editProfileFragment"
-        android:name="com.cuncis.ticketbookingremake.ui.EditProfileFragment"
+        android:name="com.cuncis.ticketbookingremake.ui.main.editprofile.EditProfileFragment"
         android:label="fragment_edit_profile"
         tools:layout="@layout/fragment_edit_profile" >
         <action
