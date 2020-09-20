@@ -8,7 +8,9 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment.findNavController
 import com.cuncis.ticketbookingremake.R
 import com.cuncis.ticketbookingremake.ui.start.ContainerStartFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class TicketBookingActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
