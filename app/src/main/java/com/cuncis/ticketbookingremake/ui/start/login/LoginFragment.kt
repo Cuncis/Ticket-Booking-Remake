@@ -11,34 +11,26 @@ import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.cuncis.ticketbookingremake.R
 import com.cuncis.ticketbookingremake.databinding.FragmentLoginBinding
+import com.cuncis.ticketbookingremake.ui.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class LoginFragment : Fragment(), LoginNavigator {
+class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(), LoginNavigator {
 
-    private val viewModel by viewModels<LoginViewModel>()
+    private val _viewModel by viewModels<LoginViewModel>()
     private lateinit var binding: FragmentLoginBinding
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = DataBindingUtil.inflate(
-            inflater,
-            R.layout.fragment_login,
-            container,
-            false
-        )
-        return binding.root
+    override fun onInitialization() {
+        super.onInitialization()
+        binding = getViewDataBinding()
+        binding.viewModel = _viewModel
+        _viewModel.navigator = this
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        viewModel.setNavigator(this)
-        binding.viewModel = viewModel
-    }
+    override fun setLayout(): Int = R.layout.fragment_login
+
+    override fun getViewModel(): LoginViewModel = _viewModel
 
     override fun goToMain() {
         findNavController().navigate(R.id.action_loginFragment_to_containerMainFragment)
