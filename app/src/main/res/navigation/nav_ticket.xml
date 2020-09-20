@@ -5,8 +5,6 @@
     android:id="@+id/nav_ticket"
     app:startDestination="@id/ticketDetailFragment">
 
-<!--    <include app:graph="@navigation/nav_main" />-->
-
     <fragment
         android:id="@+id/ticketDetailFragment"
         android:name="com.cuncis.ticketbookingremake.ui.ticket.ticketdetail.TicketDetailFragment"
@@ -23,9 +21,7 @@
         tools:layout="@layout/fragment_ticket_checkout" >
         <action
             android:id="@+id/action_ticketCheckoutFragment_to_successBuyTicketFragment"
-            app:destination="@id/successBuyTicketFragment"
-            app:popUpTo="@id/ticketCheckoutFragment"
-            app:popUpToInclusive="true"/>
+            app:destination="@id/successBuyTicketFragment" />
     </fragment>
     <fragment
         android:id="@+id/successBuyTicketFragment"
@@ -33,10 +29,12 @@
         android:label="fragment_success_buy_ticket"
         tools:layout="@layout/fragment_success_buy_ticket" >
         <action
-            android:id="@+id/action_successBuyTicketFragment_to_nav_main"
-            app:destination="@+id/nav_main"
-            app:launchSingleTop="true"
-            app:popUpTo="@id/ticketDetailFragment"
-            app:popUpToInclusive="true" />
+            android:id="@+id/action_successBuyTicketFragment_to_containerMainFragment"
+            app:destination="@id/containerMainFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/containerMainFragment"
+        android:name="com.cuncis.ticketbookingremake.ui.main.ContainerMainFragment"
+        android:label="fragment_container_main"
+        tools:layout="@layout/fragment_container_main" />
 </navigation>

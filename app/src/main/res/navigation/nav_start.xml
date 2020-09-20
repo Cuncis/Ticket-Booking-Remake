@@ -5,7 +5,6 @@
     android:id="@+id/nav_start"
     app:startDestination="@id/getStartedFragment">
 
-    <include app:graph="@navigation/nav_main" />
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.cuncis.ticketbookingremake.ui.start.login.LoginFragment"
@@ -14,9 +13,6 @@
         <action
             android:id="@+id/action_loginFragment_to_registerFragment"
             app:destination="@id/registerFragment" />
-        <action
-            android:id="@+id/action_loginFragment_to_nav_main"
-            app:destination="@id/nav_main" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
@@ -42,8 +38,8 @@
             android:id="@+id/action_getStartedFragment_to_registerFragment"
             app:destination="@id/registerFragment" />
         <action
-            android:id="@+id/action_getStartedFragment_to_nav_main"
-            app:destination="@id/nav_main" />
+            android:id="@+id/action_getStartedFragment_to_containerMainFragment"
+            app:destination="@id/containerMainFragment" />
     </fragment>
     <fragment
         android:id="@+id/successRegisterFragment"
@@ -54,4 +50,9 @@
             android:id="@+id/action_successRegisterFragment_to_nav_main"
             app:destination="@id/nav_main" />
     </fragment>
+    <fragment
+        android:id="@+id/containerMainFragment"
+        android:name="com.cuncis.ticketbookingremake.ui.main.ContainerMainFragment"
+        android:label="fragment_container_main"
+        tools:layout="@layout/fragment_container_main" />
 </navigation>

@@ -21,8 +21,7 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
         GlobalScope.launch {
             delay(1000)
             withContext(Dispatchers.Main) {
-                val directions = SplashFragmentDirections.actionSplashFragmentToNavStart()
-                navController?.navigate(directions)
+                navController?.navigate(R.id.action_splashFragment_to_containerStartFragment)
             }
         }
     }

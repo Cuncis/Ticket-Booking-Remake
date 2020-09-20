@@ -16,8 +16,7 @@ class SuccessBuyTicketFragment : Fragment(R.layout.fragment_success_buy_ticket) 
         super.onViewCreated(view, savedInstanceState)
 
         btn_view_ticket.setOnClickListener {
-            findNavController().navigate(R.id.action_successBuyTicketFragment_to_nav_main)
-//            findNavController().previousBackStackEntry
+            findNavController().navigate(R.id.action_successBuyTicketFragment_to_containerMainFragment)
         }
     }
 

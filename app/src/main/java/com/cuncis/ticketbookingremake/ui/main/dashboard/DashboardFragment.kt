@@ -14,7 +14,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         super.onViewCreated(view, savedInstanceState)
 
         btn_ticket_pisa.setOnClickListener {
-            findNavController().navigate(R.id.action_dashboardFragment_to_nav_ticket)   // sample, delete it later (frag to nav)
+            findNavController().navigate(R.id.action_dashboardFragment_to_containerTicketFragment)   // sample, delete it later (frag to nav)
         }
     }
 }

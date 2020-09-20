@@ -14,7 +14,7 @@ class GetStartedFragment : Fragment(R.layout.fragment_get_started) {
         super.onViewCreated(view, savedInstanceState)
 
         btn_sign_in.setOnClickListener {
-            findNavController().navigate(R.id.action_getStartedFragment_to_nav_main)    // sample, delete it later (frag to nav)
+            findNavController().navigate(R.id.action_getStartedFragment_to_containerMainFragment)    // sample, delete it later (frag to nav)
         }
     }
     

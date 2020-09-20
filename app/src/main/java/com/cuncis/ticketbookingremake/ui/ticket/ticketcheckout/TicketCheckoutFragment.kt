@@ -18,9 +18,5 @@ class TicketCheckoutFragment : Fragment(R.layout.fragment_ticket_checkout) {
         btn_buy_ticket.setOnClickListener {
             findNavController().navigate(R.id.action_ticketCheckoutFragment_to_successBuyTicketFragment)
         }
-
-        btn_back.setOnClickListener {
-            findNavController().popBackStack()
-        }
     }
 }

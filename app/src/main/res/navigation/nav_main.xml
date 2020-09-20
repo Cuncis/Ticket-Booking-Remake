@@ -5,8 +5,6 @@
     android:id="@+id/nav_main"
     app:startDestination="@id/dashboardFragment">
 
-    <include app:graph="@navigation/nav_ticket" />
-
     <fragment
         android:id="@+id/dashboardFragment"
         android:name="com.cuncis.ticketbookingremake.ui.main.dashboard.DashboardFragment"
@@ -16,8 +14,8 @@
             android:id="@+id/action_dashboardFragment_to_myProfileFragment"
             app:destination="@id/myProfileFragment" />
         <action
-            android:id="@+id/action_dashboardFragment_to_nav_ticket"
-            app:destination="@id/nav_ticket" />
+            android:id="@+id/action_dashboardFragment_to_containerTicketFragment"
+            app:destination="@id/containerTicketFragment" />
     </fragment>
     <fragment
         android:id="@+id/myProfileFragment"
@@ -37,4 +35,9 @@
             android:id="@+id/action_editProfileFragment_to_myProfileFragment"
             app:destination="@id/myProfileFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/containerTicketFragment"
+        android:name="com.cuncis.ticketbookingremake.ui.ticket.ContainerTicketFragment"
+        android:label="fragment_container_ticket"
+        tools:layout="@layout/fragment_container_ticket" />
 </navigation>
