@@ -7,12 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.Navigation
 import com.cuncis.ticketbookingremake.R
+import com.cuncis.ticketbookingremake.ui.base.ContainerBaseFragment
 
 
-class ContainerTicketFragment : Fragment(R.layout.fragment_container_ticket) {
+class ContainerTicketFragment : ContainerBaseFragment() {
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun setLayout() = R.layout.fragment_container_ticket
+
+    override fun onInitialization() {
+        super.onInitialization()
         onStartDestination()
     }
 

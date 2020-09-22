@@ -1,11 +1,9 @@
-package com.cuncis.ticketbookingremake.ui.start.login
+package com.cuncis.ticketbookingremake.ui.start.register
 
 import com.google.firebase.firestore.QuerySnapshot
 
-
-interface LoginNavigator {
-    fun goToMain()
-    fun goToRegister()
+interface RegisterNavigator {
     fun onSuccess(query: QuerySnapshot)
     fun onError(message: String)
+    fun onLoading(loading: Boolean)
 }
