@@ -6,6 +6,7 @@ import androidx.navigation.fragment.findNavController
 import com.cuncis.ticketbookingremake.R
 import com.cuncis.ticketbookingremake.databinding.FragmentLoginBinding
 import com.cuncis.ticketbookingremake.ui.base.BaseFragment
+import com.cuncis.ticketbookingremake.util.Status
 import com.google.firebase.firestore.QuerySnapshot
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -32,19 +33,29 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(), Logi
 //        findNavController().navigate(R.id.action_loginFragment_to_containerMainFragment)
     }
 
+    override fun onObserveAction() {
+        _viewModel.login.observe(viewLifecycleOwner, {
+            when (it.status) {
+                Status.SUCCESS -> {
+                    it.data?.let { query ->
+                        if (query.size() == 1) {
+                            Toast.makeText(requireContext(), "Success Login", Toast.LENGTH_SHORT).show()
+                        } else {
+                            Toast.makeText(requireContext(), "Success Failed", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+                Status.ERROR -> {
+                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                }
+                Status.LOADING -> {
+
+                }
+            }
+        })
+    }
+
     override fun goToRegister() {
         findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
-    }
-
-    override fun onSuccess(query: QuerySnapshot) {
-        if (query.size() == 1) {
-            Toast.makeText(requireContext(), "Success Login", Toast.LENGTH_SHORT).show()
-        } else {
-            Toast.makeText(requireContext(), "Success Failed", Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    override fun onError(message: String) {
-        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 }

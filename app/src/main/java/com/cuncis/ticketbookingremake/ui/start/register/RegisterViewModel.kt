@@ -1,9 +1,14 @@
 package com.cuncis.ticketbookingremake.ui.start.register
 
 import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.cuncis.ticketbookingremake.data.User
 import com.cuncis.ticketbookingremake.ui.base.BaseViewModel
+import com.cuncis.ticketbookingremake.util.Resource
+import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineScope
@@ -16,8 +21,26 @@ class RegisterViewModel @ViewModelInject constructor() : BaseViewModel<RegisterN
 
     private val userCollectionPref = Firebase.firestore.collection("User")
 
-    fun register(username: String, password: String) = CoroutineScope(Dispatchers.IO).launch {
-        navigator?.onLoading(true)
+    private val _register = MutableLiveData<Resource<User>>()
+    val register: LiveData<Resource<User>>
+        get() = _register
+
+    private val _checkUser = MutableLiveData<Resource<Boolean>>()
+    val checkUser: LiveData<Resource<Boolean>>
+        get() = _checkUser
+
+    fun register(user: User) = CoroutineScope(Dispatchers.IO).launch {
+        _register.postValue(Resource.loading(null))
+        try {
+            userCollectionPref.add(user).await()
+            _register.postValue(Resource.success(user))
+        } catch (e: Exception) {
+            _register.postValue(Resource.error(e.message.toString(), null))
+        }
+    }
+
+    fun checkUsername(username: String) = viewModelScope.launch {
+        _checkUser.postValue(Resource.loading(null))
         try {
             val query = userCollectionPref
                 .whereEqualTo("username", username)
@@ -25,22 +48,12 @@ class RegisterViewModel @ViewModelInject constructor() : BaseViewModel<RegisterN
                 .await()
 
             if (query.size() == 1) {
-                navigator?.onLoading(false)
-                withContext(Dispatchers.Main) {
-                    navigator?.onError("User is Exist")
-                }
-                return@launch
-            }
-            userCollectionPref.add(User(username, password)).await()
-            withContext(Dispatchers.Main) {
-                navigator?.onLoading(false)
-                navigator?.onSuccess(query)
+                _checkUser.postValue(Resource.success(true))
+            } else {
+                _checkUser.postValue(Resource.success(false))
             }
         } catch (e: Exception) {
-            navigator?.onLoading(false)
-            withContext(Dispatchers.Main) {
-                navigator?.onError(e.message.toString())
-            }
+            _checkUser.postValue(Resource.error(e.message.toString(), null))
         }
     }
 }

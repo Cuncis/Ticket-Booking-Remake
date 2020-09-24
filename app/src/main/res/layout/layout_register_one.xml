@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
+        <variable
+            name="vm"
+            type="com.cuncis.ticketbookingremake.ui.start.register.RegisterViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -221,6 +223,7 @@
                     android:fontFamily="@font/mmedium"
                     android:text="CONTINUE"
                     android:textColor="#FFF"
+                    android:onClick="@{()->vm.navigator.goToRegisterTwo()}"
                     android:textSize="20sp" />
 
             </LinearLayout>

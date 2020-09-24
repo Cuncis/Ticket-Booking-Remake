@@ -8,6 +8,9 @@
         <variable
             name="nextPage"
             type="Boolean" />
+        <variable
+            name="vm"
+            type="com.cuncis.ticketbookingremake.ui.start.register.RegisterViewModel" />
     </data>
 
     <RelativeLayout
@@ -19,11 +22,13 @@
         <include
             android:id="@+id/layout_one"
             layout="@layout/layout_register_one"
-            android:visibility="@{nextPage ? View.GONE : View.VISIBLE}" />
+            android:visibility="@{nextPage ? View.GONE : View.VISIBLE}"
+            app:vm="@{vm}"/>
 
         <include
             android:id="@+id/layout_two"
             layout="@layout/layout_register_two"
-            android:visibility="@{nextPage ? View.VISIBLE : View.GONE}" />
+            android:visibility="@{nextPage ? View.VISIBLE : View.GONE}"
+            app:vm="@{vm}"/>
     </RelativeLayout>
 </layout>
