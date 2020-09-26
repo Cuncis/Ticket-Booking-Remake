@@ -23,8 +23,8 @@ class ContainerStartFragment : ContainerBaseFragment() {
         val navGraph = navController.navInflater.inflate(R.navigation.nav_start)
 
         when (arguments?.getString("to")) {
-            "getStarted" -> {
-                navGraph.startDestination = R.id.getStartedFragment
+            "main" -> {
+                navGraph.startDestination = R.id.containerMainFragment
                 navController.graph = navGraph
             }
         }

@@ -1,5 +1,6 @@
 package com.cuncis.ticketbookingremake.ui.start.login
 
+import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -14,6 +15,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 
 
 class LoginViewModel @ViewModelInject constructor() : BaseViewModel<LoginNavigator>() {
@@ -33,6 +35,7 @@ class LoginViewModel @ViewModelInject constructor() : BaseViewModel<LoginNavigat
                 .get()
                 .await()
 
+            Timber.d("Success Login")
             _login.postValue(Resource.success(query))
         } catch (e: Exception) {
             _login.postValue(Resource.error(e.message.toString(), null))

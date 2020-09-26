@@ -16,6 +16,7 @@ import com.cuncis.ticketbookingremake.databinding.FragmentRegisterBinding
 import com.cuncis.ticketbookingremake.ui.base.BaseFragment
 import com.cuncis.ticketbookingremake.util.CustomProgressDialog
 import com.cuncis.ticketbookingremake.util.Status
+import com.cuncis.ticketbookingremake.util.isValidEmail
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -34,6 +35,10 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding, RegisterViewModel
     private var isNextPage = false
 
     private val progressDialog by lazy { CustomProgressDialog(requireContext()) }
+
+    override fun setLayout() = R.layout.fragment_register
+
+    override fun getViewModel() = _viewModel
 
     override fun onInitialization() {
         super.onInitialization()
@@ -114,18 +119,27 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding, RegisterViewModel
         }
     }
 
-    override fun setLayout() = R.layout.fragment_register
-
-    override fun getViewModel() = _viewModel
-
     override fun goToRegisterTwo() {
         username = binding.layoutOne.etUsername.text.toString()
         password = binding.layoutOne.etPassword.text.toString()
         email = binding.layoutOne.etEmailAddress.text.toString()
-        if (username.isNotEmpty() && password.isNotEmpty() && email.isNotEmpty()) {
-            _viewModel.checkUsername(username)
-        } else {
-            Toast.makeText(requireContext(), "Field cannot be empty!", Toast.LENGTH_SHORT).show()
+        when {
+            username.isEmpty() -> {
+                binding.layoutOne.etUsername.error = "Field cannot be empty"
+            }
+            password.isEmpty() -> {
+                binding.layoutOne.etPassword.error = "Field cannot be empty"
+            }
+            email.isEmpty() -> {
+                binding.layoutOne.etEmailAddress.error = "Field cannot be empty"
+            }
+            else -> {
+                if (isValidEmail(email)) {
+                    _viewModel.checkUsername(username)
+                } else {
+                    binding.layoutOne.etEmailAddress.error = "Email invalid"
+                }
+            }
         }
     }
 
@@ -133,14 +147,24 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding, RegisterViewModel
         val fullName = binding.layoutTwo.etNamaLengkap.text.toString()
         val passion = binding.layoutTwo.etBio.text.toString()
         val imageUrl = "url"
-        _viewModel.register(User(
-            username,
-            password,
-            email,
-            fullName,
-            passion,
-            imageUrl
-        ))
+        when {
+            fullName.isEmpty() -> {
+                binding.layoutTwo.etNamaLengkap.error = "Field is required"
+            }
+            passion.isEmpty() -> {
+                binding.layoutTwo.etBio.error = "Field is required"
+            }
+            else -> {
+                _viewModel.register(User(
+                    username,
+                    password,
+                    email,
+                    fullName,
+                    passion,
+                    imageUrl
+                ))
+            }
+        }
     }
 
 }
