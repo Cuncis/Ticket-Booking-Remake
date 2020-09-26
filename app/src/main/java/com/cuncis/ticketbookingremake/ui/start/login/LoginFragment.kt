@@ -61,7 +61,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(), Logi
                             Toast.makeText(requireContext(), "Success Login", Toast.LENGTH_SHORT)
                                 .show()
                             findNavController().navigate(R.id.action_loginFragment_to_containerMainFragment)
-                    //        pref.edit().putBoolean(KEY_IS_LOGIN, true).apply()
+                            pref.edit().putBoolean(KEY_IS_LOGIN, true).apply()
                         } else {
                             Toast.makeText(requireContext(), "Success Failed", Toast.LENGTH_SHORT)
                                 .show()

@@ -1,5 +1,7 @@
 package com.cuncis.ticketbookingremake.ui.base
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import java.lang.ref.WeakReference
 

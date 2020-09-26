@@ -1,40 +1,49 @@
 package com.cuncis.ticketbookingremake.ui.start.register
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.View
+import android.app.Activity
+import android.content.Intent
+import android.content.SharedPreferences
+import android.net.Uri
 import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
-import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.cuncis.ticketbookingremake.R
 import com.cuncis.ticketbookingremake.data.User
 import com.cuncis.ticketbookingremake.databinding.FragmentRegisterBinding
 import com.cuncis.ticketbookingremake.ui.base.BaseFragment
+import com.cuncis.ticketbookingremake.util.Constants.KEY_USERNAME
 import com.cuncis.ticketbookingremake.util.CustomProgressDialog
 import com.cuncis.ticketbookingremake.util.Status
+import com.cuncis.ticketbookingremake.util.getFileExtension
 import com.cuncis.ticketbookingremake.util.isValidEmail
-import com.google.firebase.firestore.QuerySnapshot
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
-import kotlinx.android.synthetic.main.layout_register_two.view.*
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 
+@AndroidEntryPoint
 class RegisterFragment : BaseFragment<FragmentRegisterBinding, RegisterViewModel>(),
     RegisterNavigator {
+    companion object {
+        const val PHOTO_CODE = 1
+    }
 
     private val _viewModel by viewModels<RegisterViewModel>()
     private lateinit var binding: FragmentRegisterBinding
+    private lateinit var photoLocation: Uri
 
     private var username: String = ""
     private var password: String = ""
     private var email: String = ""
+    private var fullName: String = ""
+    private var passion: String = ""
     private var isNextPage = false
 
     private val progressDialog by lazy { CustomProgressDialog(requireContext()) }
+
+    @Inject
+    lateinit var pref: SharedPreferences
 
     override fun setLayout() = R.layout.fragment_register
 
@@ -49,25 +58,21 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding, RegisterViewModel
     }
 
     override fun onReadyAction() {
-        binding.layoutOne.btnBack.setOnClickListener {
-            onBackStack()
-        }
-        binding.layoutTwo.btnBack.setOnClickListener {
-            onBackStack()
-        }
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
-            onBackStack()
-        }
+        binding.layoutOne.btnBack.setOnClickListener { onBackStack() }
+        binding.layoutTwo.btnBack.setOnClickListener { onBackStack() }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) { onBackStack() }
+        binding.layoutTwo.btnAddPhoto.setOnClickListener { findPhoto() }
     }
 
     override fun onObserveAction() {
-        _viewModel.checkUser.observe(viewLifecycleOwner, Observer {
+        _viewModel.checkUser.observe(viewLifecycleOwner, {
             when (it.status) {
                 Status.SUCCESS -> {
                     progressDialog.hide()
                     it.data?.let { isExist ->
                         if (isExist) {
-                            Toast.makeText(requireContext(), "User is exist", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(requireContext(), "User is exist", Toast.LENGTH_SHORT)
+                                .show()
                             isNextPage = false
                             binding.nextPage = false
                         } else {
@@ -95,8 +100,37 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding, RegisterViewModel
                             "Successfully Register",
                             Toast.LENGTH_SHORT
                         ).show()
-                        val directions = RegisterFragmentDirections.actionRegisterFragmentToSuccessRegisterFragment(user.username)
+                        val directions =
+                            RegisterFragmentDirections.actionRegisterFragmentToSuccessRegisterFragment(
+                                user.username
+                            )
                         findNavController().navigate(directions)
+                    }
+                }
+                Status.ERROR -> {
+                    progressDialog.hide()
+                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                }
+                Status.LOADING -> {
+                    progressDialog.show()
+                }
+            }
+        })
+        _viewModel.uploadPhoto.observe(viewLifecycleOwner, {
+            when (it.status) {
+                Status.SUCCESS -> {
+                    progressDialog.hide()
+                    it.data?.let { uri ->
+                        _viewModel.register(
+                            User(
+                                username,
+                                password,
+                                email,
+                                fullName,
+                                passion,
+                                uri.toString()
+                            )
+                        )
                     }
                 }
                 Status.ERROR -> {
@@ -110,7 +144,27 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding, RegisterViewModel
         })
     }
 
+    private fun findPhoto() {
+        val pic = Intent()
+        pic.type = "image/*"
+        pic.action = Intent.ACTION_GET_CONTENT
+        startActivityForResult(pic, PHOTO_CODE)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == PHOTO_CODE && resultCode == Activity.RESULT_OK) {
+            data?.data?.let {
+                photoLocation = it
+                Glide.with(this).load(photoLocation).centerCrop()
+                    .into(binding.layoutTwo.picPhotoRegisterUser)
+            }
+        }
+    }
+
     private fun onBackStack() {
+        pref.edit().putString(KEY_USERNAME, "").apply()
         if (isNextPage) {
             isNextPage = false
             binding.nextPage = false
@@ -135,6 +189,7 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding, RegisterViewModel
             }
             else -> {
                 if (isValidEmail(email)) {
+                    pref.edit().putString(KEY_USERNAME, username).apply()
                     _viewModel.checkUsername(username)
                 } else {
                     binding.layoutOne.etEmailAddress.error = "Email invalid"
@@ -144,9 +199,8 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding, RegisterViewModel
     }
 
     override fun goToRegisterSuccess() {
-        val fullName = binding.layoutTwo.etNamaLengkap.text.toString()
-        val passion = binding.layoutTwo.etBio.text.toString()
-        val imageUrl = "url"
+        fullName = binding.layoutTwo.etNamaLengkap.text.toString()
+        passion = binding.layoutTwo.etBio.text.toString()
         when {
             fullName.isEmpty() -> {
                 binding.layoutTwo.etNamaLengkap.error = "Field is required"
@@ -155,16 +209,12 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding, RegisterViewModel
                 binding.layoutTwo.etBio.error = "Field is required"
             }
             else -> {
-                _viewModel.register(User(
-                    username,
-                    password,
-                    email,
-                    fullName,
-                    passion,
-                    imageUrl
-                ))
+                _viewModel.uploadPhotoUser(
+                    requireContext().getFileExtension(photoLocation),
+                    photoLocation,
+                    pref.getString(KEY_USERNAME, "").toString()
+                )
             }
         }
     }
-
 }
