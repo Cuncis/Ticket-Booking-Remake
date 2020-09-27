@@ -13,11 +13,8 @@ import com.cuncis.ticketbookingremake.R
 import com.cuncis.ticketbookingremake.data.User
 import com.cuncis.ticketbookingremake.databinding.FragmentRegisterBinding
 import com.cuncis.ticketbookingremake.ui.base.BaseFragment
+import com.cuncis.ticketbookingremake.util.*
 import com.cuncis.ticketbookingremake.util.Constants.KEY_USERNAME
-import com.cuncis.ticketbookingremake.util.CustomProgressDialog
-import com.cuncis.ticketbookingremake.util.Status
-import com.cuncis.ticketbookingremake.util.getFileExtension
-import com.cuncis.ticketbookingremake.util.isValidEmail
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -31,7 +28,7 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding, RegisterViewModel
 
     private val _viewModel by viewModels<RegisterViewModel>()
     private lateinit var binding: FragmentRegisterBinding
-    private lateinit var photoLocation: Uri
+    private var photoLocation: Uri? = null
 
     private var username: String = ""
     private var password: String = ""
@@ -209,11 +206,15 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding, RegisterViewModel
                 binding.layoutTwo.etBio.error = "Field is required"
             }
             else -> {
-                _viewModel.uploadPhotoUser(
-                    requireContext().getFileExtension(photoLocation),
-                    photoLocation,
-                    pref.getString(KEY_USERNAME, "").toString()
-                )
+                photoLocation?.let {
+                    _viewModel.uploadPhotoUser(
+                        requireContext().getFileExtension(it),
+                        it,
+                        pref.getString(KEY_USERNAME, "").toString()
+                    )
+                } ?: run {
+                    requireContext().toast("Photo is required!")
+                }
             }
         }
     }

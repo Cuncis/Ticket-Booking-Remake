@@ -38,6 +38,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, DashboardViewMo
 
     override fun onReadyAction() {
         requireContext().toast("Is Login ${pref.getBoolean(KEY_IS_LOGIN, false)}")
+        pref.edit().putBoolean(KEY_IS_LOGIN, false).apply()
 
         btn_ticket_pisa.setOnClickListener {
             findNavController().navigate(R.id.action_dashboardFragment_to_containerTicketFragment)   // sample, delete it later (frag to nav)
