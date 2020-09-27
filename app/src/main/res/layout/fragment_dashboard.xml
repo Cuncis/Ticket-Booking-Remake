@@ -5,6 +5,9 @@
 
     <data>
         <variable
+            name="user"
+            type="com.cuncis.ticketbookingremake.data.User" />
+        <variable
             name="vm"
             type="com.cuncis.ticketbookingremake.ui.main.dashboard.DashboardViewModel" />
     </data>
@@ -77,9 +80,10 @@
 
                     <ImageView
                         android:id="@+id/img_photo_home_user"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/icon_nopic" />
+                        android:layout_width="45dp"
+                        android:layout_height="46dp"
+                        android:src="@drawable/icon_nopic"
+                        app:loadImageUrl="@{user.imageUrl}"/>
 
                 </com.github.florent37.shapeofview.shapes.CircleView>
 
@@ -93,6 +97,7 @@
                     android:fontFamily="@font/mmedium"
                     android:textColor="#FFF"
                     android:textSize="20sp"
+                    android:text="@{user.username}"
                     app:layout_constraintStart_toEndOf="@+id/view2"
                     app:layout_constraintTop_toBottomOf="@+id/textView2"
                     tools:text="Cuncis" />
@@ -106,6 +111,7 @@
                     android:fontFamily="@font/mlight"
                     android:textColor="#FFF"
                     android:textSize="14sp"
+                    android:text="@{user.passion}"
                     app:layout_constraintStart_toEndOf="@+id/view2"
                     app:layout_constraintTop_toBottomOf="@+id/tv_nama_lengkap"
                     tools:text="Traveller" />
@@ -119,6 +125,7 @@
                     android:fontFamily="@font/mmedium"
                     android:textColor="@color/greenPrimary"
                     android:textSize="24sp"
+                    android:text="@{`$ ` + String.valueOf(user.money)}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView2"
                     tools:text="$ 800" />

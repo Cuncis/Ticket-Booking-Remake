@@ -8,9 +8,9 @@ import com.cuncis.ticketbookingremake.R
 import com.cuncis.ticketbookingremake.databinding.FragmentLoginBinding
 import com.cuncis.ticketbookingremake.ui.base.BaseFragment
 import com.cuncis.ticketbookingremake.util.Constants.KEY_IS_LOGIN
+import com.cuncis.ticketbookingremake.util.Constants.KEY_USERNAME
 import com.cuncis.ticketbookingremake.util.CustomProgressDialog
 import com.cuncis.ticketbookingremake.util.Status
-import com.google.firebase.firestore.QuerySnapshot
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -46,6 +46,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(), Logi
                 binding.etPassword.error = "Field cannot be empty"
             }
             else -> {
+                pref.edit().putString(KEY_USERNAME, binding.etUsername.text.toString()).apply()
                 _viewModel.login(binding.etUsername.text.toString(), binding.etPassword.text.toString())
             }
         }
@@ -61,7 +62,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(), Logi
                             Toast.makeText(requireContext(), "Success Login", Toast.LENGTH_SHORT)
                                 .show()
                             findNavController().navigate(R.id.action_loginFragment_to_containerMainFragment)
-//                            pref.edit().putBoolean(KEY_IS_LOGIN, true).apply()
+                            pref.edit().putBoolean(KEY_IS_LOGIN, true).apply()
                         } else {
                             Toast.makeText(requireContext(), "Success Failed", Toast.LENGTH_SHORT)
                                 .show()
