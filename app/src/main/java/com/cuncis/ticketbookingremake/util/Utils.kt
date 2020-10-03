@@ -3,9 +3,11 @@ package com.cuncis.ticketbookingremake.util
 import android.content.Context
 import android.net.Uri
 import android.text.TextUtils
+import android.util.Log
 import android.util.Patterns
 import android.webkit.MimeTypeMap
 import android.widget.Toast
+import timber.log.Timber
 
 
 fun Context.toast(message: String) {
@@ -21,4 +23,8 @@ fun Context.getFileExtension(uri: Uri): String? {
     val contextResolver = this.contentResolver
     val mimeTypeMap = MimeTypeMap.getSingleton()
     return mimeTypeMap.getExtensionFromMimeType(contextResolver.getType(uri))
+}
+
+fun showLog(message: String) {
+    Timber.tag("_logTicket").d(message)
 }

@@ -181,11 +181,11 @@
                         android:weightSum="3">
 
                         <LinearLayout
-                            android:id="@+id/btn_ticket_pisa"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center"
+                            android:onClick="@{()->vm.navigator.goToPisa()}"
                             android:orientation="vertical">
 
 
@@ -207,7 +207,7 @@
                         </LinearLayout>
 
                         <LinearLayout
-                            android:id="@+id/btn_ticket_torri"
+                            android:onClick="@{()->vm.navigator.goToTorri()}"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -233,11 +233,11 @@
                         </LinearLayout>
 
                         <LinearLayout
-                            android:id="@+id/btn_ticket_pagoda"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center"
+                            android:onClick="@{()->vm.navigator.goToPagoda()}"
                             android:orientation="vertical">
 
 
@@ -267,11 +267,11 @@
                         android:weightSum="3">
 
                         <LinearLayout
-                            android:id="@+id/btn_ticket_candi"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center"
+                            android:onClick="@{()->vm.navigator.goToCandi()}"
                             android:orientation="vertical">
 
 
@@ -293,11 +293,11 @@
                         </LinearLayout>
 
                         <LinearLayout
-                            android:id="@+id/btn_ticket_sphinx"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center"
+                            android:onClick="@{()->vm.navigator.goToSphinx()}"
                             android:orientation="vertical">
 
 
@@ -319,11 +319,11 @@
                         </LinearLayout>
 
                         <LinearLayout
-                            android:id="@+id/btn_ticket_monas"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center"
+                            android:onClick="@{()->vm.navigator.goToMonas()}"
                             android:orientation="vertical">
 
 

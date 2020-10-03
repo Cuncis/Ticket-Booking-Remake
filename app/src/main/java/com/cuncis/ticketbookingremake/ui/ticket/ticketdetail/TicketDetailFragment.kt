@@ -1,22 +1,71 @@
 package com.cuncis.ticketbookingremake.ui.ticket.ticketdetail
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.cuncis.ticketbookingremake.R
-import kotlinx.android.synthetic.main.fragment_ticket_detail.*
+import com.cuncis.ticketbookingremake.data.Travel
+import com.cuncis.ticketbookingremake.databinding.FragmentTicketDetailBinding
+import com.cuncis.ticketbookingremake.ui.base.BaseFragment
+import com.cuncis.ticketbookingremake.util.CustomProgressDialog
+import com.cuncis.ticketbookingremake.util.Status
+import com.cuncis.ticketbookingremake.util.showLog
+import com.google.firebase.firestore.ktx.toObject
 
 
-class TicketDetailFragment : Fragment(R.layout.fragment_ticket_detail) {
+class TicketDetailFragment : BaseFragment<FragmentTicketDetailBinding, TicketDetailViewModel>(),
+    TicketDetailNavigator {
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    private val _viewModel by viewModels<TicketDetailViewModel>()
+    private lateinit var binding: FragmentTicketDetailBinding
 
-        btn_buy_ticket.setOnClickListener {
-            findNavController().navigate(R.id.action_ticketDetailFragment_to_ticketCheckoutFragment)
-        }
+    private val progressDialog by lazy { CustomProgressDialog(requireContext()) }
+
+    private val travelNameKey: String by lazy { arguments?.getString("key").toString() }
+
+    override fun onInitialization() {
+        super.onInitialization()
+        binding = getViewDataBinding()
+        binding.vm = _viewModel
+        _viewModel.navigator = this
+    }
+
+    override fun onReadyAction() {
+        _viewModel.showTicketDetail(travelNameKey)
+    }
+
+    override fun onObserveAction() {
+        _viewModel.ticketDetail.observe(viewLifecycleOwner, {
+            when (it.status) {
+                Status.SUCCESS -> {
+                    progressDialog.hide()
+                    it.data?.let { query ->
+                        for (data in query) {
+                            val travel = data.toObject<Travel.Place>()
+                            binding.travel = travel
+                            showLog("$travel")
+                        }
+                    }
+                }
+                Status.ERROR -> {
+                    progressDialog.hide()
+                    showLog(it.message.toString())
+                }
+                Status.LOADING -> {
+                    progressDialog.show()
+                }
+            }
+        })
+    }
+
+    override fun setLayout() = R.layout.fragment_ticket_detail
+
+    override fun getViewModel() = _viewModel
+
+    override fun goToCheckout() {
+        findNavController().navigate(R.id.action_ticketDetailFragment_to_ticketCheckoutFragment)
+    }
+
+    override fun goToBack() {
+        findNavController().popBackStack()
     }
 }

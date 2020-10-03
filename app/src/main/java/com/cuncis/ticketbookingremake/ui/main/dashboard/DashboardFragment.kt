@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.cuncis.ticketbookingremake.R
@@ -26,6 +27,15 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class DashboardFragment : BaseFragment<FragmentDashboardBinding, DashboardViewModel>(),
     DashboardNavigator {
+
+    companion object {
+        const val PISA = "Pisa"
+        const val TORRI = "Torri"
+        const val PAGODA = "Pagoda"
+        const val CANDI = "Candi"
+        const val SPHINX = "Sphinx"
+        const val MONAS = "Monas"
+    }
 
     private val _viewModel by viewModels<DashboardViewModel>()
     private lateinit var binding: FragmentDashboardBinding
@@ -50,10 +60,6 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, DashboardViewMo
         _viewModel.showUserInfo(pref.getString(KEY_USERNAME, "").toString())
         requireContext().toast("Is Login ${pref.getBoolean(KEY_IS_LOGIN, false)}")
 //        pref.edit().putBoolean(KEY_IS_LOGIN, false).apply()
-
-        btn_ticket_pisa.setOnClickListener {
-            findNavController().navigate(R.id.action_dashboardFragment_to_containerTicketFragment)   // sample, delete it later (frag to nav)
-        }
     }
 
     override fun onObserveAction() {
@@ -80,6 +86,36 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, DashboardViewMo
     }
 
     override fun goToProfile() {
-        TODO("Not yet implemented")
+        findNavController().navigate(R.id.action_dashboardFragment_to_myProfileFragment)
+    }
+
+    override fun goToPisa() {
+        val bundle = bundleOf("to" to PISA)
+        findNavController().navigate(R.id.action_dashboardFragment_to_containerTicketFragment, bundle)   // sample, delete it later (frag to nav)
+    }
+
+    override fun goToTorri() {
+        val bundle = bundleOf("to" to TORRI)
+        findNavController().navigate(R.id.action_dashboardFragment_to_containerTicketFragment, bundle)
+    }
+
+    override fun goToPagoda() {
+        val bundle = bundleOf("to" to PAGODA)
+        findNavController().navigate(R.id.action_dashboardFragment_to_containerTicketFragment, bundle)
+    }
+
+    override fun goToCandi() {
+        val bundle = bundleOf("to" to CANDI)
+        findNavController().navigate(R.id.action_dashboardFragment_to_containerTicketFragment, bundle)
+    }
+
+    override fun goToSphinx() {
+        val bundle = bundleOf("to" to SPHINX)
+        findNavController().navigate(R.id.action_dashboardFragment_to_containerTicketFragment, bundle)
+    }
+
+    override fun goToMonas() {
+        val bundle = bundleOf("to" to MONAS)
+        findNavController().navigate(R.id.action_dashboardFragment_to_containerTicketFragment, bundle)
     }
 }
