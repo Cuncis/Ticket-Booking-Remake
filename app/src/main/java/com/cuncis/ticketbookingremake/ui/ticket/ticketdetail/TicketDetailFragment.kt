@@ -66,6 +66,6 @@ class TicketDetailFragment : BaseFragment<FragmentTicketDetailBinding, TicketDet
     }
 
     override fun goToBack() {
-        findNavController().popBackStack()
+        requireActivity().onBackPressed()
     }
 }

@@ -90,8 +90,12 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, DashboardViewMo
     }
 
     override fun goToPisa() {
-        val bundle = bundleOf("to" to PISA)
-        findNavController().navigate(R.id.action_dashboardFragment_to_containerTicketFragment, bundle)   // sample, delete it later (frag to nav)
+        when (findNavController().currentDestination?.id) {
+            R.id.dashboardFragment -> {
+                val bundle = bundleOf("to" to PISA)
+                findNavController().navigate(R.id.action_dashboardFragment_to_containerTicketFragment, bundle)   // sample, delete it later (frag to nav)
+            }
+        }
     }
 
     override fun goToTorri() {
