@@ -1,22 +1,59 @@
 package com.cuncis.ticketbookingremake.ui.ticket.ticketcheckout
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.navigation.fragment.findNavController
+import androidx.fragment.app.viewModels
 import com.cuncis.ticketbookingremake.R
-import kotlinx.android.synthetic.main.fragment_ticket_checkout.*
+import com.cuncis.ticketbookingremake.data.Ticket
+import com.cuncis.ticketbookingremake.databinding.FragmentTicketCheckoutBinding
+import com.cuncis.ticketbookingremake.ui.base.BaseFragment
+import com.cuncis.ticketbookingremake.util.Status
+import com.cuncis.ticketbookingremake.util.showLog
 
 
-class TicketCheckoutFragment : Fragment(R.layout.fragment_ticket_checkout) {
+class TicketCheckoutFragment :
+    BaseFragment<FragmentTicketCheckoutBinding, TicketCheckoutViewModel>(),
+    TicketCheckoutNavigator {
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    private val _viewModel by viewModels<TicketCheckoutViewModel>()
+    private lateinit var binding: FragmentTicketCheckoutBinding
 
-        btn_buy_ticket.setOnClickListener {
-            findNavController().navigate(R.id.action_ticketCheckoutFragment_to_successBuyTicketFragment)
-        }
+    override fun setLayout() = R.layout.fragment_ticket_checkout
+
+    override fun getViewModel() = _viewModel
+
+    override fun onInitialization() {
+        binding = getViewDataBinding()
+        binding.vm = _viewModel
+        _viewModel.navigator = this
+    }
+
+    override fun onReadyAction() {
+        _viewModel.ticket.observe(viewLifecycleOwner, {
+            when (it.status) {
+                Status.SUCCESS -> {
+                    it.data?.let { ticket ->
+                        showLog("$ticket")
+                    }
+                }
+                Status.ERROR -> {
+
+                }
+                Status.LOADING -> {
+
+                }
+            }
+        })
+    }
+
+    override fun goToTicketSuccess() {
+//        findNavController().navigate(R.id.action_ticketCheckoutFragment_to_successBuyTicketFragment)
+        _viewModel.buyTicket(
+            "Monas",
+            "cuncis3",
+            Ticket("1111", travel_name = "Monas", location = "Jakarta", travel_date = "Yerterday")
+        )
+    }
+
+    override fun goToBack() {
+        requireActivity().onBackPressed()
     }
 }

@@ -29,6 +29,10 @@ class TicketDetailFragment : BaseFragment<FragmentTicketDetailBinding, TicketDet
         _viewModel.navigator = this
     }
 
+    override fun setLayout() = R.layout.fragment_ticket_detail
+
+    override fun getViewModel() = _viewModel
+
     override fun onReadyAction() {
         _viewModel.showTicketDetail(travelNameKey)
     }
@@ -56,10 +60,6 @@ class TicketDetailFragment : BaseFragment<FragmentTicketDetailBinding, TicketDet
             }
         })
     }
-
-    override fun setLayout() = R.layout.fragment_ticket_detail
-
-    override fun getViewModel() = _viewModel
 
     override fun goToCheckout() {
         findNavController().navigate(R.id.action_ticketDetailFragment_to_ticketCheckoutFragment)
